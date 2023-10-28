@@ -1,20 +1,16 @@
 package Amazing;
 
 public class paqueteOrdinario extends paquete {
-	
-	public paqueteOrdinario(int idpaquete, int volumen, float precio) {
+	private float costoEnvio;
+	public paqueteOrdinario(int idpaquete, int volumen, float precio, float costoEnvio) {
 		super(idpaquete,volumen,precio);
 	}
 
 	
 	@Override
-	public void agregarCosto(){
+	public void agregarCosto(){// se suma elcosto de envio al precio del paquete
+		this.precio += this.costoEnvio;
 	}
-	public void agregarCosto(float costoEnvio) { // se suma elcosto de envio al precio del paquete
-		this.precio += costoEnvio;
-		
-	}
-
 
 
 }

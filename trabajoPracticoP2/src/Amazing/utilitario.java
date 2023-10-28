@@ -23,9 +23,6 @@ public class utilitario extends transporte {
 			}
 			
 		
-			
-		
-		
 		
 	}
 	public void aumentarPaga() {
