@@ -108,7 +108,7 @@ public interface IEmpresa {
 	 * Se registra la finalizacion de un pedido registrado en la empresa, 
 	 * dado su codigo.
 	 * Devuelve el total a pagar por el pedido.
-	 * 
+	 * En caso de no encontrar el paquete a quitar, se espera que lance una excepcion, como puede verse en el junit.
 	 * Si ese codigo no esta en el sistema o ya fue finalizado se debe 
 	 * generar una excepcion.
 	 *
