@@ -24,5 +24,12 @@ public class paqueteEspecial extends paquete{
 		}
 		
 	}
+	
+	public int getIdpaquete() {
+		return this.idpaquete;
+	}
+	public int getvolumen() {
+		return this.volumen;
+	}
 
 }

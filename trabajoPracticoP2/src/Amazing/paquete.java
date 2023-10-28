@@ -15,9 +15,14 @@ public abstract class paquete {
 			+ " (idpaquete "+this.idpaquete+", volumen "+volumen+ "precio" + precio+")";
 	}
 	public abstract void agregarCosto();
+
+	public int getIdpaquete() {
+		return this.idpaquete;
+	}
+	public int getvolumen() {
+		return this.volumen;
+	}
 	
-	//public abstract void agregarCosto(float costoEnvio); // El costo de envio se le suma al precio
-	//public abstract void agregarCosto(float porcentaje, float pagaExtra); // Si el volumen supera los 3000 se suma la "pagaExtra"
-																		  // y en caso de superar los 5000 se suma el doble de "pagaExtra".
+	
 	
 }
