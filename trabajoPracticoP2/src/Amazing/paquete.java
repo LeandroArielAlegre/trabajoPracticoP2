@@ -3,8 +3,8 @@ package Amazing;
 public abstract class paquete {
 	protected int idpaquete;
 	protected int volumen;
-	protected float precio;
-	public paquete(int idpaquete, int volumen, float precio) {
+	protected int precio;
+	public paquete(int idpaquete, int volumen, int precio) {
 		this.idpaquete = idpaquete;
 		this.volumen = volumen;
 		this.precio = precio;		

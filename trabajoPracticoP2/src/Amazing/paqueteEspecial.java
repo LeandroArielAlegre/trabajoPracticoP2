@@ -1,9 +1,9 @@
 package Amazing;
 
 public class paqueteEspecial extends paquete{
-	private float porcentaje;
-	private float adicional;
-	public paqueteEspecial(int idpaquete, int volumen, float precio,float porcentaje, float adicional) {
+	private int porcentaje;
+	private int adicional;
+	public paqueteEspecial(int idpaquete, int volumen, int precio,int porcentaje, int adicional) {
 		super(idpaquete,volumen,precio);
 		this.porcentaje = porcentaje;
 		this.adicional = adicional;

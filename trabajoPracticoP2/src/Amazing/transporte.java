@@ -6,11 +6,11 @@ import java.util.Map;
 
 
 public abstract class transporte {
-	protected int patente;
+	protected String patente;
 	protected int volumen;
 	protected float precio;
 	protected Map<Integer, paquete> Carga = new HashMap<>();
-	public transporte(int patente, int volumen, float precio) {
+	public transporte(String patente, int volumen, float precio) {
 		this.patente = patente;
 		this.volumen = volumen;
 		this.precio = precio;

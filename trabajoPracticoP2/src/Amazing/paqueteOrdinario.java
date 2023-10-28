@@ -1,8 +1,8 @@
 package Amazing;
 
 public class paqueteOrdinario extends paquete {
-	private float costoEnvio;
-	public paqueteOrdinario(int idpaquete, int volumen, float precio, float costoEnvio) {
+	private int costoEnvio;
+	public paqueteOrdinario(int idpaquete, int volumen, int precio, int costoEnvio) {
 		super(idpaquete,volumen,precio);
 	}
 

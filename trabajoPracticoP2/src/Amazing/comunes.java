@@ -2,7 +2,7 @@ package Amazing;
 
 public class comunes extends transporte {
 	int limiteDePaquetes;
-	public comunes(int patente, int volumen, float precio, int limiteDePaquetes) {
+	public comunes(String patente, int volumen, float precio, int limiteDePaquetes) {
 		super(patente,volumen,precio);
 		this.limiteDePaquetes = limiteDePaquetes;
 	}

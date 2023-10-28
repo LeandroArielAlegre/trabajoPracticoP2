@@ -6,4 +6,5 @@
  *
  */
 module trabajoPracticoP2 {
+	requires junit;
 }
