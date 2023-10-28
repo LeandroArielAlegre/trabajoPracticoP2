@@ -2,11 +2,11 @@ package Amazing;
 
 public class paqueteEspecial extends paquete{
 	private float porcentaje;
-	private float pagaExtra;
-	public paqueteEspecial(int idpaquete, int volumen, float precio,float porcentaje, float pagaExtra) {
+	private float adicional;
+	public paqueteEspecial(int idpaquete, int volumen, float precio,float porcentaje, float adicional) {
 		super(idpaquete,volumen,precio);
 		this.porcentaje = porcentaje;
-		this.pagaExtra = pagaExtra;
+		this.adicional = adicional;
 	}
 	
 
@@ -17,9 +17,9 @@ public class paqueteEspecial extends paquete{
 				this.precio = (this.precio * (this.porcentaje/100)); // porcentaje extra
 				
 				if(this.volumen > 3000 && this.volumen < 5000) {
-					this.precio += this.pagaExtra;
+					this.precio += this.adicional;
 				}else if(this.volumen > 5000) {
-					this.precio +=  this.pagaExtra*2;
+					this.precio +=  this.adicional*2;
 				}
 		
 	}
