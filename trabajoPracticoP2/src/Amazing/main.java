@@ -4,7 +4,7 @@ public class main {
 
 	public static void main(String[] args) {
 
-	   /*EmpresaAmazing empresa = new EmpresaAmazing("30-456789-2");
+	   EmpresaAmazing empresa = new EmpresaAmazing("30-456789-2");
 	   
 		   empresa.registrarAutomovil("AB444ZZ", 10000, 3500, 5);
 		   empresa.registrarUtilitario("AA222FF", 18000, 10000, 10000);
@@ -63,6 +63,6 @@ public class main {
 		   System.out.println("Hay transportes iguales: " + empresa.hayTransportesIdenticos());
 		   
 		   System.out.println(empresa.toString());
-		   */   
+		     
 	}
 }

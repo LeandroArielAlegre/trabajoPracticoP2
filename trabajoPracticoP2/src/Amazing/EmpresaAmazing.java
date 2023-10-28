@@ -4,42 +4,94 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EmpresaAmazing implements IEmpresa {
-	private String name;
-	private Map<String, paquete> ListaTransportes = new HashMap<>();
-	private Map<Integer, paquete> ListaPedidos = new HashMap<>();
-	public EmpresaAmazing( String name) {
-		this.name = name;
-		
+	private String nombre;
+	private Map<String, transporte> ListaTransportes = new HashMap<>();
+	private Map<Integer, pedido> ListaPedidos = new HashMap<>();
+	private int keyMapPedido = 0;
+	public EmpresaAmazing(String nombre) {
+		this.nombre = nombre;
 	}
 	@Override
 	public void registrarAutomovil(String patente, int volMax, int valorViaje, int maxPaq) {
-		transporte automovil = new comunes(patente,volMax,valorViaje,maxPaq);
+		
+		if(!existePatente(patente)) {
+			transporte automovil = new comunes(patente,volMax,valorViaje,maxPaq);
+			this.ListaTransportes.put(patente, automovil);
+		}else {
+			System.out.println("Patente ya registrada");
+			
+		}
+		
 		
 	}
+	private boolean existePatente(String patente) {
+		if(this.ListaTransportes.containsKey(patente)) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void registrarUtilitario(String patente, int volMax, int valorViaje, int valorExtra) {
-		// TODO Auto-generated method stub
+		if(!existePatente(patente)) {
+			transporte utilitario = new utilitario(patente,volMax,valorViaje,valorExtra);
+			this.ListaTransportes.put(patente, utilitario);
+		}else {
+			System.out.println("Patente ya registrada");
+			
+		}
+		
 		
 	}
 	@Override
 	public void registrarCamion(String patente, int volMax, int valorViaje, int adicXPaq) {
-		// TODO Auto-generated method stub
+		if(!existePatente(patente)) {
+			transporte camion = new camion(patente,volMax,valorViaje,adicXPaq);
+			this.ListaTransportes.put(patente, camion);
+		}else {
+			System.out.println("Patente ya registrada");
+		}
+		
+	}
+	//UN CLIENTE PUEDE TENER MAS DE 1 PEDIDO
+	@Override
+	public int registrarPedido(String cliente, String direccion, int dni) {
+		this.keyMapPedido +=1;
+		pedido pedido = new pedido(keyMapPedido,cliente,direccion,dni);
+		this.ListaPedidos.put(keyMapPedido, pedido);
+		
+		return this.keyMapPedido; // clave de id pedido
+	}
+	
+	private boolean existePedido(int codPedido) {
+		if(this.ListaPedidos.containsKey(codPedido)) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	@Override
+	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio) {
+				if (existePedido(codPedido)) {
+		            int codigoPaquete = this.ListaPedidos.get(codPedido).agregarPaquete(volumen, precio, costoEnvio); // ingreso paquete
+		            return codigoPaquete;
+		        } else {
+		            // Manejo de la situación en la que no existe el pedido
+		        	throw new RuntimeException("No se encontró el pedido con el código: " + codPedido);
+		        }   
 		
 	}
 	@Override
-	public int registrarPedido(String cliente, String direccion, int dni) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
 	public int agregarPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (existePedido(codPedido)) {
+            int codigoPaquete = this.ListaPedidos.get(codPedido).agregarPaquete(volumen, precio, porcentaje,adicional); // ingreso paquete
+            return codigoPaquete;
+        } else {
+            // Manejo de la situación en la que no existe el pedido
+        	throw new RuntimeException("No se encontró el pedido con el código: " + codPedido);
+        }
 	}
 	@Override
 	public boolean quitarPaquete(int codPaquete) {
@@ -75,6 +127,9 @@ public class EmpresaAmazing implements IEmpresa {
 	public boolean hayTransportesIdenticos() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public String getNombre() {
+		return nombre;
 	}
 
 }

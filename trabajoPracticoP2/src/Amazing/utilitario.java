@@ -2,7 +2,7 @@ package Amazing;
 
 public class utilitario extends transporte {
 	float valorAdicional;
-	public utilitario(String patente, int volumen, float precio, float valorAdicional) {
+	public utilitario(String patente, int volumen, int precio, float valorAdicional) {
 		super(patente,volumen,precio);
 		this.valorAdicional = valorAdicional;
 	}

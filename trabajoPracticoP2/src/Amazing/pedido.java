@@ -23,18 +23,21 @@ public class pedido {
 	}
 	 
 	
-	public void agregarPaquete(int volumen, int precio, int costoEnvio) { // Agrego paquete ordinario
+	public int agregarPaquete(int volumen, int precio, int costoEnvio) { // Agrego paquete ordinario
 		this.keyMap +=1; 
 		paquete paquete = new paqueteOrdinario(keyMap,volumen,precio,costoEnvio);
 		this.ListaCarrito.put(keyMap, paquete);
+		return this.keyMap;
 		
 	}
-	public void agregarPaquete(int volumen, int precio, int porcentaje, int adicional) { //paquete especial
+	public int agregarPaquete(int volumen, int precio, int porcentaje, int adicional) { //paquete especial
 		this.keyMap +=1;
 		paquete paquete = new paqueteEspecial(keyMap,volumen,precio,porcentaje,adicional);
 		this.ListaCarrito.put(keyMap, paquete);
+		return this.keyMap;
 		
 	}
+	
 	
 	public boolean quitarPaquete(int idPaquete) {
 		if (ListaCarrito.containsKey(idPaquete)) {
