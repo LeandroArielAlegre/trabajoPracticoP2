@@ -43,7 +43,7 @@ public class pedido {
 			ListaCarrito.remove(idPaquete);
 	        return true;
 	    } 
-	       return false; // si no pudo devuelve false
+		throw new RuntimeException("El paquete no existe " + idPaquete);
 	    
 		
 	}
@@ -90,7 +90,7 @@ public class pedido {
 		return this.idPedido;
 	}
 	public Map<Integer, paquete> getListaCarrito() {
-	    return ListaCarrito;
+	    return this.ListaCarrito;
 	}
 	
 	

@@ -19,7 +19,7 @@ public class EmpresaAmazing implements IEmpresa {
 			transporte automovil = new comunes(patente,volMax,valorViaje,maxPaq);
 			this.ListaTransportes.put(patente, automovil);
 		}else {
-			System.out.println("Patente ya registrada");
+			throw new RuntimeException("Esta patente ya se encuentra registrada " + patente);
 			
 		}
 		
@@ -38,7 +38,7 @@ public class EmpresaAmazing implements IEmpresa {
 			transporte utilitario = new utilitario(patente,volMax,valorViaje,valorExtra);
 			this.ListaTransportes.put(patente, utilitario);
 		}else {
-			System.out.println("Patente ya registrada");
+			throw new RuntimeException("Esta patente ya se encuentra registrada " + patente);
 			
 		}
 		
@@ -50,7 +50,7 @@ public class EmpresaAmazing implements IEmpresa {
 			transporte camion = new camion(patente,volMax,valorViaje,adicXPaq);
 			this.ListaTransportes.put(patente, camion);
 		}else {
-			System.out.println("Patente ya registrada");
+			throw new RuntimeException("Esta patente ya se encuentra registrada " + patente);
 		}
 		
 	}
@@ -103,7 +103,7 @@ public class EmpresaAmazing implements IEmpresa {
 				return pedido.quitarPaquete(codPaquete);
 			}
 		}
-		return false;
+		throw new RuntimeException("El paquete no existe " + codPaquete);
 	}
 	@Override
 	public double cerrarPedido(int codPedido) {
@@ -161,7 +161,7 @@ public class EmpresaAmazing implements IEmpresa {
 		    }
 
 		    if (result.length() == 0) {
-		        throw new RuntimeException("No hay ningún pedido cerrado, no es posible cargar el transporte");
+		        System.out.println("No es posible cargar el transporte");
 		    }
 		 
 		 
@@ -179,8 +179,19 @@ public class EmpresaAmazing implements IEmpresa {
 	}
 	@Override
 	public Map<Integer, String> pedidosNoEntregados() {
-		// TODO Auto-generated method stub
-		return null;
+	    Map<Integer, String> pedidosNoEntregados = new HashMap<>();
+	    ArrayList<pedido> listaPedidos = listaPedidosCerrados();
+
+	    for (pedido pedido : listaPedidos) {
+	        for (paquete paquete : pedido.getListaCarrito().values()) {
+	            if (!paquete.getEstado()) {
+	                pedidosNoEntregados.put(pedido.getIdPedido(), pedido.getNombre());
+	                break; // No es necesario verificar más paquetes en este pedido
+	            }
+	        }
+	    }
+
+	    return pedidosNoEntregados;
 	}
 	@Override
 	public double facturacionTotalPedidosCerrados() {
