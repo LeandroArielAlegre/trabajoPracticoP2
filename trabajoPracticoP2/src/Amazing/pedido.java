@@ -62,8 +62,35 @@ public class pedido {
 		return facturacionTotal;
 	}
 	
+	
+	public boolean estadoPaquete(int idPaquete) {
+		if(ListaCarrito.get(idPaquete).getEstado()) {
+			return true;
+		}
+		return false;
+			
+	    
+	    
+		
+	}
+	
 	public boolean estadoPedido() {
 		return this.EstadoPedido;
+	}
+	public String getDireccion() {
+		// TODO Auto-generated method stub
+		return this.direccion;
+	}
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return this.nombre;
+	}
+	public int getIdPedido() {
+		// TODO Auto-generated method stub
+		return this.idPedido;
+	}
+	public Map<Integer, paquete> getListaCarrito() {
+	    return ListaCarrito;
 	}
 	
 	

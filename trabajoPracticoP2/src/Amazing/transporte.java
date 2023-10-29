@@ -22,15 +22,9 @@ public abstract class transporte {
 			+ " (idpaquete "+this.patente+", volumen "+volumen+ "precio" + precio+")";
 	}
 	
-	public abstract void agregarCarga();
+	public abstract boolean agregarCarga(paquete paquete);
 	public int cantidadDePaquetes() {
-		int contador = 0;
-		if(!cargaVacia()) {
-			for (@SuppressWarnings("unused") paquete paquete : this.Carga.values()) {
-		        contador =+1;
-			}
-		}
-		return contador;
+		 return Carga.size();
 		
 	}
 	public boolean cargaVacia() {

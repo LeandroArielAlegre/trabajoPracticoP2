@@ -8,16 +8,17 @@ public class camion extends transporte {
 	}
 
 	@Override
-	public void agregarCarga() {
-		
+	public boolean agregarCarga(paquete paquete) {
+		return false;
 	}
-	public void agregarCarga(paqueteEspecial paquete) throws Exception { // LOS CAMIONES ESPECIALES SOLAMENTE GUARDAN PAQUETES ESPECIALES
+	public boolean agregarCarga(paqueteEspecial paquete) throws Exception { // LOS CAMIONES ESPECIALES SOLAMENTE GUARDAN PAQUETES ESPECIALES
 		int espacioUsado = volumenUsado(); // Quiero saber cuanto espacio estoy ocupando con todos mis paquetes
 		int espacioRestante = espacioUsado + paquete.getvolumen(); // Quiero saber si sumando el espacio ocupado mas el nuevo paquete aun me queda espacio
 		if(hayEspacio() &&  this.volumen > espacioRestante) {
 			this.Carga.put(paquete.getIdpaquete(), paquete); // La clave del map es igual al idpaquete del paquete
+			return true;
 		}else {
-			throw new Exception("No hay espacio disponible en el transporte");
+			return false;
 		}
 		
 	}

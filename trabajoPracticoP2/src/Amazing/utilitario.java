@@ -1,25 +1,22 @@
 package Amazing;
 
 public class utilitario extends transporte {
-	float valorAdicional;
-	public utilitario(String patente, int volumen, int precio, float valorAdicional) {
+	int valorAdicional;
+	public utilitario(String patente, int volumen, int precio, int valorAdicional) {
 		super(patente,volumen,precio);
 		this.valorAdicional = valorAdicional;
 	}
 
 	@Override
-	public void agregarCarga() {
-		// TODO Auto-generated method stub
-		
-	}
-	public void agregarCarga(paquete paquete) throws Exception { // LOS comunes llevan paquetes ordinarios
+	public boolean agregarCarga(paquete paquete)  { // LOS comunes llevan paquetes ordinarios
 		
 			int espacioUsado = volumenUsado(); // Quiero saber cuanto espacio estoy ocupando con todos mis paquetes
 			int espacioRestante = espacioUsado + paquete.getvolumen(); // Quiero saber si sumando el espacio ocupado mas el nuevo paquete aun me queda espacio
 			if(hayEspacio() &&  this.volumen > espacioRestante) {
 				this.Carga.put(paquete.getIdpaquete(), paquete); // La clave del map es igual al idpaquete del paquete
+				return true;
 			}else {
-				throw new Exception("No hay espacio disponible en el transporte");
+				return false;
 			}
 			
 		

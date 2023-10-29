@@ -8,23 +8,26 @@ public class comunes extends transporte {
 	}
 
 	@Override
-	public void agregarCarga() {
-		// TODO Auto-generated method stub
+	public boolean agregarCarga(paquete paquete) {
+		return false;
 		
 	}
-	public void agregarCarga(paqueteOrdinario paquete) throws Exception { // LOS comunes llevan paquetes ordinarios
+	public boolean agregarCarga(paqueteOrdinario paquete) throws Exception { // LOS comunes llevan paquetes ordinarios
 	
 		if(!maximoAlcanzado() && paquete.getvolumen() <= 2000 ) { // si el limite de paquetes no fue alcanzado y si el volumen del paquete a ingresar es menor a 2000
 			int espacioUsado = volumenUsado(); // Quiero saber cuanto espacio estoy ocupando con todos mis paquetes
 			int espacioRestante = espacioUsado + paquete.getvolumen(); // Quiero saber si sumando el espacio ocupado mas el nuevo paquete aun me queda espacio
 			if(hayEspacio() &&  this.volumen > espacioRestante) {
 				this.Carga.put(paquete.getIdpaquete(), paquete); // La clave del map es igual al idpaquete del paquete
+				return true;
 			}else {
-				throw new Exception("No hay espacio disponible en el transporte");
+				return false;
+				
 			}
 			
 		}else {
-			throw new Exception("No es posible ingresar el paquete");
+			return false;
+			
 		}
 		
 		
