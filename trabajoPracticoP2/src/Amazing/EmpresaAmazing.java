@@ -7,7 +7,7 @@ public class EmpresaAmazing implements IEmpresa {
 	private String nombre;
 	private Map<String, transporte> ListaTransportes = new HashMap<>();
 	private Map<Integer, pedido> ListaPedidos = new HashMap<>();
-	private int keyMapPedido = 0;
+	private int ContadorCodigoPaquete = 0; // Asigna automaticamente una llave en un map
 	public EmpresaAmazing(String nombre) {
 		this.nombre = nombre;
 	}
@@ -56,11 +56,11 @@ public class EmpresaAmazing implements IEmpresa {
 	//UN CLIENTE PUEDE TENER MAS DE 1 PEDIDO
 	@Override
 	public int registrarPedido(String cliente, String direccion, int dni) {
-		this.keyMapPedido +=1;
-		pedido pedido = new pedido(keyMapPedido,cliente,direccion,dni);
-		this.ListaPedidos.put(keyMapPedido, pedido);
+		int idPedido = this.ListaPedidos.size()+1;
+		pedido pedido = new pedido(idPedido,cliente,direccion,dni);
+		this.ListaPedidos.put(idPedido, pedido);
 		
-		return this.keyMapPedido; // clave de id pedido
+		return idPedido; // clave de id pedido
 	}
 	
 	private boolean existePedido(int codPedido) {
@@ -74,8 +74,9 @@ public class EmpresaAmazing implements IEmpresa {
 	
 	@Override
 	public int agregarPaquete(int codPedido, int volumen, int precio, int costoEnvio) {
-				if (existePedido(codPedido)) {
-		            int codigoPaquete = this.ListaPedidos.get(codPedido).agregarPaquete(volumen, precio, costoEnvio); // ingreso paquete
+			 this.ContadorCodigoPaquete +=1; 
+				if (existePedido(codPedido) && estadoPedido(codPedido)) {
+		            int codigoPaquete = this.ListaPedidos.get(codPedido).agregarPaquete(this.ContadorCodigoPaquete,volumen, precio, costoEnvio); // ingreso paquete
 		            return codigoPaquete;
 		        } else {
 		            // Manejo de la situación en la que no existe el pedido
@@ -85,8 +86,9 @@ public class EmpresaAmazing implements IEmpresa {
 	}
 	@Override
 	public int agregarPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional) {
-		if (existePedido(codPedido)) {
-            int codigoPaquete = this.ListaPedidos.get(codPedido).agregarPaquete(volumen, precio, porcentaje,adicional); // ingreso paquete
+		this.ContadorCodigoPaquete +=1; 
+		if (existePedido(codPedido) && estadoPedido(codPedido)) {
+            int codigoPaquete = this.ListaPedidos.get(codPedido).agregarPaquete(this.ContadorCodigoPaquete,volumen, precio, porcentaje,adicional); // ingreso paquete
             return codigoPaquete;
         } else {
             // Manejo de la situación en la que no existe el pedido
@@ -95,14 +97,28 @@ public class EmpresaAmazing implements IEmpresa {
 	}
 	@Override
 	public boolean quitarPaquete(int codPaquete) {
-		// TODO Auto-generated method stub
+		for(pedido pedido: this.ListaPedidos.values()) {
+			if(pedido.estadoPedido()) {
+				return pedido.quitarPaquete(codPaquete);
+			}
+		}
 		return false;
 	}
 	@Override
 	public double cerrarPedido(int codPedido) {
-		// TODO Auto-generated method stub
-		return 0;
+		double facturacion =0;
+		if(estadoPedido(codPedido) && existePedido(codPedido)) {
+			facturacion =this.ListaPedidos.get(codPedido).cerrarPedido();
+		}else {
+			throw new RuntimeException("No se encontró el pedido con el código o el pedido ya esta cerrado: " + codPedido);
+		}
+		return facturacion;
 	}
+	private boolean estadoPedido(int codPedido) {
+		boolean ret =this.ListaPedidos.get(codPedido).estadoPedido();
+		return ret;	
+	}
+	
 	@Override
 	public String cargarTransporte(String patente) {
 		// TODO Auto-generated method stub

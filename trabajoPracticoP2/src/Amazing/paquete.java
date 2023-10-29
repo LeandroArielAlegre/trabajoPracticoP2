@@ -22,6 +22,9 @@ public abstract class paquete {
 	public int getvolumen() {
 		return this.volumen;
 	}
+	public int getPrecio() {
+		return this.precio;
+	}
 	
 	
 	

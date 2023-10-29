@@ -8,9 +8,9 @@ public class pedido {
 	private String nombre;
 	private String direccion;
 	private int dni;
+	private boolean EstadoPedido = true; // Si esta en True significa que el pedido esta abierto
 
 	private Map<Integer, paquete> ListaCarrito = new HashMap<>();
-	private int keyMap = 0; // Asigna automaticamente una llave en un map
 	public pedido(int idpedido, String nombre, String direccion, int dni) {
 		this.idPedido = idpedido;
 		this.nombre = nombre;
@@ -23,18 +23,16 @@ public class pedido {
 	}
 	 
 	
-	public int agregarPaquete(int volumen, int precio, int costoEnvio) { // Agrego paquete ordinario
-		this.keyMap +=1; 
-		paquete paquete = new paqueteOrdinario(keyMap,volumen,precio,costoEnvio);
-		this.ListaCarrito.put(keyMap, paquete);
-		return this.keyMap;
+	public int agregarPaquete(int idPaquete,int volumen, int precio, int costoEnvio) { // Agrego paquete ordinario
+		paquete paquete = new paqueteOrdinario(idPaquete,volumen,precio,costoEnvio);
+		this.ListaCarrito.put(idPaquete, paquete);
+		return idPaquete;
 		
 	}
-	public int agregarPaquete(int volumen, int precio, int porcentaje, int adicional) { //paquete especial
-		this.keyMap +=1;
-		paquete paquete = new paqueteEspecial(keyMap,volumen,precio,porcentaje,adicional);
-		this.ListaCarrito.put(keyMap, paquete);
-		return this.keyMap;
+	public int agregarPaquete(int idPaquete,int volumen, int precio, int porcentaje, int adicional) { //paquete especial
+		paquete paquete = new paqueteEspecial(idPaquete,volumen,precio,porcentaje,adicional);
+		this.ListaCarrito.put(idPaquete, paquete);
+		return idPaquete;
 		
 	}
 	
@@ -48,6 +46,24 @@ public class pedido {
 	       return false; // si no pudo devuelve false
 	    
 		
+	}
+	public double cerrarPedido() {
+		if(this.ListaCarrito == null) {
+			return 0;
+		}
+		
+		this.EstadoPedido = false;
+		double facturacionTotal = 0;
+		for (paquete paquete : this.ListaCarrito.values()) {
+			paquete.agregarCosto();
+			facturacionTotal += paquete.getPrecio();
+		}
+		
+		return facturacionTotal;
+	}
+	
+	public boolean estadoPedido() {
+		return this.EstadoPedido;
 	}
 	
 	
