@@ -1,5 +1,7 @@
 package Amazing;
 
+
+
 public class paqueteEspecial extends paquete{
 	private float porcentaje;
 	private int adicional;
@@ -23,8 +25,9 @@ public class paqueteEspecial extends paquete{
 					this.precio +=  this.adicional*2;
 				}
 	}
-	
 
+
+	
 	
 	
 

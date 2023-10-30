@@ -244,8 +244,15 @@ public class EmpresaAmazing implements IEmpresa {
 	}
 	@Override
 	public boolean hayTransportesIdenticos() {
-		// TODO Auto-generated method stub
-		return false;
+		  for (transporte transporte1 : this.ListaTransportes.values()) {
+		        for (transporte transporte2 : this.ListaTransportes.values()) {
+		            if (transporte1 != transporte2 && transporte1.equals(transporte2)) {
+		                return true; // Encontraste dos transportes idénticos
+		            }
+		        }
+		    }
+		    return false; // No se encontraron transportes idénticos
+		
 	}
 	public String getCuit() {
 		return cuit;

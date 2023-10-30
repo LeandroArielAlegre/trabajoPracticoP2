@@ -1,5 +1,7 @@
 package Amazing;
 
+
+
 public class comunes extends transporte {
 	int limiteDePaquetes;
 	public comunes(String patente, int volumen, float precio, int limiteDePaquetes) {
@@ -72,6 +74,9 @@ public class comunes extends transporte {
 		// TODO Auto-generated method stub
 		return this.precio;
 	}
+
+	
+	
 	
 	
 

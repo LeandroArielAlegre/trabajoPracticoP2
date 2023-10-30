@@ -1,5 +1,7 @@
 package Amazing;
 
+
+
 public class camion extends transporte {
 	float valorAdicional;
 	public camion(String patente, int volumen, int precio, int valorAdicional) {
@@ -71,6 +73,9 @@ public class camion extends transporte {
 		aumentarPaga();
 		return this.precio;
 	}
+
+	
+	
 	
 	
 	
