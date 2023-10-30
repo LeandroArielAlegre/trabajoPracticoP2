@@ -43,8 +43,7 @@ public class pedido {
 			ListaCarrito.remove(idPaquete);
 	        return true;
 	    } 
-		return false;
-		//throw new RuntimeException("El paquete no existe " + idPaquete);
+		throw new RuntimeException("El paquete no existe " + idPaquete);
 		
 	}
 	public double cerrarPedido() {

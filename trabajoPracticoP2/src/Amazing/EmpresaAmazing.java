@@ -9,7 +9,7 @@ public class EmpresaAmazing implements IEmpresa {
 	private Map<String, transporte> ListaTransportes = new HashMap<>();
 	private Map<Integer, pedido> ListaPedidos = new HashMap<>();
 	private int ContadorCodigoPaquete = 0; // Asigna automaticamente una llave en un map
-	private double facturacionTotal;
+	private double facturacionTotal = 0;
 	public EmpresaAmazing(String cuit) {
 		this.cuit = cuit;
 	}
@@ -145,6 +145,8 @@ public class EmpresaAmazing implements IEmpresa {
 		}
 		this.facturacionTotal += facturacion;
 		return facturacion;
+		
+		
 	}
 	private boolean estadoPedido(int codPedido) {
 		boolean ret =this.ListaPedidos.get(codPedido).estadoPedido();
@@ -209,7 +211,7 @@ public class EmpresaAmazing implements IEmpresa {
 		if(existePatente(patente)) {
 			transporte transporte = this.ListaTransportes.get(patente);
 			if(!transporte.cargaVacia()) {
-				costoEntrega =transporte.Facturacion();
+				costoEntrega +=transporte.Facturacion();
 				return costoEntrega;
 			}throw new transporteVacio(patente);
 		}throw new NoexistePatente(patente);

@@ -23,10 +23,10 @@ public class camion extends transporte {
 		
 	}
 	
-	public void aumentarPaga() {
+	private void aumentarPaga() {
 		int cantidad = cantidadDePaquetes();
 		if(!cargaVacia()) {
-			this.valorAdicional *= cantidad;
+			this.valorAdicional *= cantidad +1;
 			this.precio += this.valorAdicional;
 			this.valorAdicional = 0; // POR CADA VIAJE SE COBRA UN EXTRA POR LA CANTIDAD DE PAQUETES EN LA CARGA
 			// LUEGO DE TERMINAR EL VIAJE, VALOR ADICIONAL VUELVE A ESTAR EN 0.

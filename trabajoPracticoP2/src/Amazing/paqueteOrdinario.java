@@ -4,6 +4,7 @@ public class paqueteOrdinario extends paquete {
 	private int costoEnvio;
 	public paqueteOrdinario(int idpaquete, int volumen, int precio, int costoEnvio) {
 		super(idpaquete,volumen,precio);
+		this.costoEnvio = costoEnvio;
 	}
 
 	
