@@ -43,8 +43,8 @@ public class pedido {
 			ListaCarrito.remove(idPaquete);
 	        return true;
 	    } 
-		throw new RuntimeException("El paquete no existe " + idPaquete);
-	    
+		return false;
+		//throw new RuntimeException("El paquete no existe " + idPaquete);
 		
 	}
 	public double cerrarPedido() {
@@ -61,6 +61,15 @@ public class pedido {
 		
 		return facturacionTotal;
 	}
+	/*
+	// Devuelve la facturacion de todos los paquetes sin tener encuenta la suma del costo de envio, porcentaje y valores adicionales
+	public double FacturacionTotal() {
+		double facturacionTotal =0;
+		for (paquete paquete : this.ListaCarrito.values()) {
+			facturacionTotal += paquete.getPrecio();
+		}
+		return facturacionTotal;
+	}*/
 	
 	
 	public boolean estadoPaquete(int idPaquete) {
@@ -68,9 +77,6 @@ public class pedido {
 			return true;
 		}
 		return false;
-			
-	    
-	    
 		
 	}
 	

@@ -9,8 +9,14 @@ public class EmpresaAmazing implements IEmpresa {
 	private Map<String, transporte> ListaTransportes = new HashMap<>();
 	private Map<Integer, pedido> ListaPedidos = new HashMap<>();
 	private int ContadorCodigoPaquete = 0; // Asigna automaticamente una llave en un map
+	private double facturacionTotal;
 	public EmpresaAmazing(String cuit) {
 		this.cuit = cuit;
+	}
+	
+	public String toString(){
+		return getClass().getSimpleName()
+			+ " (cuit "+this.cuit+")";
 	}
 	@Override
 	public void registrarAutomovil(String patente, int volMax, int valorViaje, int maxPaq) {
@@ -81,8 +87,8 @@ public class EmpresaAmazing implements IEmpresa {
 		            return codigoPaquete;
 		        } else {
 		            // Manejo de la situación en la que no existe el pedido
-		        	throw new RuntimeException("No se encontró el pedido con el código: " + codPedido);
-		        }   
+		        	
+		        }  throw new RuntimeException("No se encontró el pedido con el código: " + codPedido); 
 		
 	}
 	@Override
@@ -96,14 +102,38 @@ public class EmpresaAmazing implements IEmpresa {
         	throw new RuntimeException("No se encontró el pedido con el código: " + codPedido);
         }
 	}
+	// Execption
+	
+	@SuppressWarnings("serial")
+	public class PaqueteNoEncontradoException extends RuntimeException {
+	    public PaqueteNoEncontradoException(int idPaquete) {
+	        super("El paquete no existe: " + idPaquete);
+	    }
+	}
+	@SuppressWarnings("serial")
+	public class NoexistePatente extends RuntimeException {
+	    public NoexistePatente(String patente) {
+	        super("La patente no existe: " + patente);
+	    }
+	}
+	@SuppressWarnings("serial")
+	public class transporteVacio extends RuntimeException {
+	    public transporteVacio(String patente) {
+	        super("EL transporte no tiene carga: " + patente);
+	    }
+	}
+	
 	@Override
 	public boolean quitarPaquete(int codPaquete) {
 		for(pedido pedido: this.ListaPedidos.values()) {
-			if(pedido.estadoPedido()) {
-				return pedido.quitarPaquete(codPaquete);
-			}
+			if (pedido.quitarPaquete(codPaquete)) {
+                // Si el paquete se quitó con éxito, retornar true
+                return true;
+            }
 		}
-		throw new RuntimeException("El paquete no existe " + codPaquete);
+		return false;
+		//return false;
+		//throw new RuntimeException("El paquete no existe " + codPaquete);
 	}
 	@Override
 	public double cerrarPedido(int codPedido) {
@@ -113,6 +143,7 @@ public class EmpresaAmazing implements IEmpresa {
 		}else {
 			throw new RuntimeException("No se encontró el pedido con el código o el pedido ya esta cerrado: " + codPedido);
 		}
+		this.facturacionTotal += facturacion;
 		return facturacion;
 	}
 	private boolean estadoPedido(int codPedido) {
@@ -151,7 +182,7 @@ public class EmpresaAmazing implements IEmpresa {
 
 			                // Aquí puedes agregar el paquete al transporte, por ejemplo:
 		            		if(transporte.agregarCarga(paquete)) {
-		            			result.append(" + [").append(pedido.getIdPedido()).append(" - ").append(paquete.getIdpaquete()).append("] ").append(pedido.getDireccion()).append("\n");
+		            			result.append(" + [ ").append(pedido.getIdPedido()).append(" - ").append(paquete.getIdpaquete()).append(" ] ").append(pedido.getDireccion()).append("\n");
 		            			paquete.setEstado(); // si se logro cargar el paquete en el camion, se cambia el estado del paquete a cargado (false)
 		            		}
 		            	}
@@ -174,8 +205,16 @@ public class EmpresaAmazing implements IEmpresa {
 	}
 	@Override
 	public double costoEntrega(String patente) {
-		// TODO Auto-generated method stub
-		return 0;
+		double costoEntrega = 0;
+		if(existePatente(patente)) {
+			transporte transporte = this.ListaTransportes.get(patente);
+			if(!transporte.cargaVacia()) {
+				costoEntrega =transporte.Facturacion();
+				return costoEntrega;
+			}throw new transporteVacio(patente);
+		}throw new NoexistePatente(patente);
+		
+		
 	}
 	@Override
 	public Map<Integer, String> pedidosNoEntregados() {
@@ -193,10 +232,11 @@ public class EmpresaAmazing implements IEmpresa {
 
 	    return pedidosNoEntregados;
 	}
+	
+	
 	@Override
 	public double facturacionTotalPedidosCerrados() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.facturacionTotal;
 	}
 	@Override
 	public boolean hayTransportesIdenticos() {

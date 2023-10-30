@@ -54,6 +54,14 @@ public class utilitario extends transporte {
 		return volumenDePaquetes;	
 	}
 
+	@Override
+	public double Facturacion() {
+		aumentarPaga();
+		return this.precio;
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 

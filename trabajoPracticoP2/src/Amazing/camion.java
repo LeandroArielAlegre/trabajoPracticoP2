@@ -65,6 +65,12 @@ public class camion extends transporte {
 		}
 		return volumenDePaquetes;	
 	}
+
+	@Override
+	public double Facturacion() {
+		aumentarPaga();
+		return this.precio;
+	}
 	
 	
 	

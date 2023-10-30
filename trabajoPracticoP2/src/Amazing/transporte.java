@@ -23,16 +23,16 @@ public abstract class transporte {
 	}
 	
 	public abstract boolean agregarCarga(paquete paquete);
+	public abstract double Facturacion();
 	public int cantidadDePaquetes() {
 		 return Carga.size();
-		
 	}
 	public boolean cargaVacia() {
-		if(this.Carga ==null) {
-			return true;
-		}
-		return false;
+		 if(this.Carga == null) {
+			 return true;
+		 }
+		 return false;
 	}
-
+	
 
 }

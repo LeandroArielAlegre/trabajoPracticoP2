@@ -66,6 +66,12 @@ public class comunes extends transporte {
 		}
 		return false;
 	}
+
+	@Override
+	public double Facturacion() {
+		// TODO Auto-generated method stub
+		return this.precio;
+	}
 	
 	
 
