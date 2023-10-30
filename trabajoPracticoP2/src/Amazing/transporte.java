@@ -33,6 +33,11 @@ public abstract class transporte {
 		 }
 		 return false;
 	}
+	public boolean cargaVacia2() {
+		 boolean ret = this.Carga.isEmpty();
+		 return ret;
+	}
+	
 	
 
 }

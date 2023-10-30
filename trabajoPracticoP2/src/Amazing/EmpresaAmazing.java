@@ -213,8 +213,10 @@ public class EmpresaAmazing implements IEmpresa {
 			if(!transporte.cargaVacia()) {
 				costoEntrega +=transporte.Facturacion();
 				return costoEntrega;
-			}throw new transporteVacio(patente);
-		}throw new NoexistePatente(patente);
+			}throw new RuntimeException("transporte vacio");
+		}
+		
+		throw new NoexistePatente(patente);
 		
 		
 	}
@@ -225,7 +227,7 @@ public class EmpresaAmazing implements IEmpresa {
 
 	    for (pedido pedido : listaPedidos) {
 	        for (paquete paquete : pedido.getListaCarrito().values()) {
-	            if (!paquete.getEstado()) {
+	            if (paquete.getEstado()) {
 	                pedidosNoEntregados.put(pedido.getIdPedido(), pedido.getNombre());
 	                break; // No es necesario verificar más paquetes en este pedido
 	            }
