@@ -184,7 +184,9 @@ public class EmpresaAmazing implements IEmpresa {
 
 			                // Aquí puedes agregar el paquete al transporte, por ejemplo:
 		            		if(transporte.agregarCarga(paquete)) {
-		            			result.append(" + [ ").append(pedido.getIdPedido()).append(" - ").append(paquete.getIdpaquete()).append(" ] ").append(pedido.getDireccion()).append("\n");
+		            			result.append(" + [ ").append(pedido.getIdPedido()).append(" - ").append(paquete.getIdpaquete())
+		            			.append(" ] ")
+		            			.append(pedido.getDireccion()).append("\n");
 		            			paquete.setEstado(); // si se logro cargar el paquete en el camion, se cambia el estado del paquete a cargado (false)
 		            		}
 		            	}
