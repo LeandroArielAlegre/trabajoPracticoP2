@@ -48,6 +48,7 @@ public class main {
 		   System.out.println(empresa.cargarTransporte("AE555YY"));
 		   System.out.println();
 		   
+		   System.out.println(empresa.consultarCargaTransporte("AE555YY"));
 		   System.out.println("Costo del transporte: " + 
                    empresa.costoEntrega("AE555YY"));
 		   System.out.println();
@@ -63,6 +64,8 @@ public class main {
 		   System.out.println("Hay transportes iguales: " + empresa.hayTransportesIdenticos());
 		   
 		   System.out.println(empresa.toString());
-		     
+		   
+		   
+		   
 	}
 }

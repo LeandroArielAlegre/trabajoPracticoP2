@@ -11,12 +11,15 @@ public class camion extends transporte {
 
 	@Override
 	public boolean agregarCarga(paquete paquete) {
+		if(paquete instanceof paqueteEspecial) {
+			return agregarCarga((paqueteEspecial) paquete);
+		}
 		return false;
 	}
-	public boolean agregarCarga(paqueteEspecial paquete) throws Exception { // LOS CAMIONES ESPECIALES SOLAMENTE GUARDAN PAQUETES ESPECIALES
+	public boolean agregarCarga(paqueteEspecial paquete){ // LOS CAMIONES ESPECIALES SOLAMENTE GUARDAN PAQUETES ESPECIALES
 		int espacioUsado = volumenUsado(); // Quiero saber cuanto espacio estoy ocupando con todos mis paquetes
 		int espacioRestante = espacioUsado + paquete.getvolumen(); // Quiero saber si sumando el espacio ocupado mas el nuevo paquete aun me queda espacio
-		if(hayEspacio() &&  this.volumen > espacioRestante) {
+		if(hayEspacio() &&  this.volumen >= espacioRestante) {
 			this.Carga.put(paquete.getIdpaquete(), paquete); // La clave del map es igual al idpaquete del paquete
 			return true;
 		}else {
@@ -28,7 +31,7 @@ public class camion extends transporte {
 	private void aumentarPaga() {
 		int cantidad = cantidadDePaquetes();
 		if(!cargaVacia()) {
-			this.valorAdicional *= cantidad +1;
+			//this.valorAdicional *= cantidad;
 			this.precio += this.valorAdicional;
 			this.valorAdicional = 0; // POR CADA VIAJE SE COBRA UN EXTRA POR LA CANTIDAD DE PAQUETES EN LA CARGA
 			// LUEGO DE TERMINAR EL VIAJE, VALOR ADICIONAL VUELVE A ESTAR EN 0.

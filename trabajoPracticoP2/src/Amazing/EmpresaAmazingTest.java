@@ -62,6 +62,7 @@ public class EmpresaAmazingTest {
 		emp.cargarTransporte(patenteAuto1);
 		emp.cargarTransporte(patenteCamion);
 		costoEntregaCamion = 12000 + 5000; // porque hay un solo paquete especial con volumen mayor a 2000.
+		System.out.println(emp.toString());
 	}
 
 	private String registrarPaqueteEnListado(int pedidoAbiertoAux, int idPaquete, String direccion) {
@@ -185,9 +186,16 @@ public class EmpresaAmazingTest {
 	public void hayTransportesIdenticosDevuelve_true() {
 		assertFalse(emp.hayTransportesIdenticos());
 		// cargar algun transporte identico
+		
 		emp.cerrarPedido(pedidoAbierto);
+		
+		System.out.println(((EmpresaAmazing) emp).consultarPaquetesPedido(pedidoAbierto));
 		emp.cargarTransporte(patenteAuto2);
+		//System.out.println(((EmpresaAmazing) emp).consultarCargaTransporte(patenteAuto2));
+		//System.out.println(((EmpresaAmazing) emp).consultarCargaTransporte(patenteAuto1));
 		assertTrue(emp.hayTransportesIdenticos());
 	}
+	
+	
 	
 }

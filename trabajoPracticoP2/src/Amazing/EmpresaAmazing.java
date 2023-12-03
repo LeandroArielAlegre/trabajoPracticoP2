@@ -2,6 +2,7 @@ package Amazing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EmpresaAmazing implements IEmpresa {
@@ -13,11 +14,29 @@ public class EmpresaAmazing implements IEmpresa {
 	public EmpresaAmazing(String cuit) {
 		this.cuit = cuit;
 	}
-	
+
 	public String toString(){
-		return getClass().getSimpleName()
-			+ " (cuit "+this.cuit+")";
-	}
+		 StringBuilder stringBuilder = new StringBuilder();
+		 
+		   stringBuilder.append(getClass().getSimpleName())
+           .append(" (cuit ").append(this.cuit).append(")\n");
+
+   stringBuilder.append("Transportes:\n");
+   for (Map.Entry<String, transporte> entry : ListaTransportes.entrySet()) {
+       stringBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+   }
+
+   stringBuilder.append("Pedidos:\n");
+   for (Map.Entry<Integer, pedido> entry : ListaPedidos.entrySet()) {
+       stringBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+   }
+
+   stringBuilder.append("Contador Código Paquete: ").append(ContadorCodigoPaquete).append("\n");
+   stringBuilder.append("Facturación Total: ").append(facturacionTotal);
+
+   return stringBuilder.toString();
+}
+	
 	@Override
 	public void registrarAutomovil(String patente, int volMax, int valorViaje, int maxPaq) {
 		
@@ -104,24 +123,7 @@ public class EmpresaAmazing implements IEmpresa {
 	}
 	// Execption
 	
-	@SuppressWarnings("serial")
-	public class PaqueteNoEncontradoException extends RuntimeException {
-	    public PaqueteNoEncontradoException(int idPaquete) {
-	        super("El paquete no existe: " + idPaquete);
-	    }
-	}
-	@SuppressWarnings("serial")
-	public class NoexistePatente extends RuntimeException {
-	    public NoexistePatente(String patente) {
-	        super("La patente no existe: " + patente);
-	    }
-	}
-	@SuppressWarnings("serial")
-	public class transporteVacio extends RuntimeException {
-	    public transporteVacio(String patente) {
-	        super("EL transporte no tiene carga: " + patente);
-	    }
-	}
+	
 	
 	@Override
 	public boolean quitarPaquete(int codPaquete) {
@@ -131,9 +133,9 @@ public class EmpresaAmazing implements IEmpresa {
                 return true;
             }
 		}
-		return false;
+		
 		//return false;
-		//throw new RuntimeException("El paquete no existe " + codPaquete);
+		throw new RuntimeException("El paquete no existe " + codPaquete);
 	}
 	@Override
 	public double cerrarPedido(int codPedido) {
@@ -163,6 +165,32 @@ public class EmpresaAmazing implements IEmpresa {
 		return pedidosCerrados;
 		
 	}
+	
+	public String consultarCargaTransporte(String patente) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if(this.ListaTransportes.containsKey(patente)) {
+			Map<Integer, paquete> carga = new HashMap<>(this.ListaTransportes.get(patente).getCarga());
+			for (Map.Entry<Integer, paquete> entry : carga.entrySet()) {
+			       stringBuilder.append("LA CARGA ES :").append("\n").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+			   }
+			return stringBuilder.toString();
+		}
+		return stringBuilder.append("{ }").toString();
+		
+	}
+	
+	public String consultarPaquetesPedido(int idpedido) {
+		StringBuilder stringBuilder = new StringBuilder();
+		if(this.ListaPedidos.containsKey(idpedido)) {
+			Map<Integer, paquete> carga = new HashMap<>(this.ListaPedidos.get(idpedido).getListaCarrito());
+			for (Map.Entry<Integer, paquete> entry : carga.entrySet()) {
+			       stringBuilder.append("LA CARGA ES :").append("\n").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+			   }
+			return stringBuilder.toString();
+		}
+		return stringBuilder.append("{ }").toString();
+	}
+	
 	
 	@Override
 	public String cargarTransporte(String patente) {
@@ -210,18 +238,21 @@ public class EmpresaAmazing implements IEmpresa {
 	@Override
 	public double costoEntrega(String patente) {
 		double costoEntrega = 0;
-		if(existePatente(patente)) {
-			transporte transporte = this.ListaTransportes.get(patente);
-			if(!transporte.cargaVacia()) {
-				costoEntrega +=transporte.Facturacion();
-				return costoEntrega;
-			}throw new RuntimeException("transporte vacio");
+		if (!this.ListaTransportes.containsKey(patente)) {
+			throw new RuntimeException("El transporte no se encuentra registrado");
 		}
+		if (this.ListaTransportes.get(patente).cargaVacia()) {
+			throw new RuntimeException("El transporte no se encuentra cargado");
+		}
+
+		costoEntrega +=this.ListaTransportes.get(patente).Facturacion();
+		return costoEntrega;
 		
-		throw new NoexistePatente(patente);
+		
 		
 		
 	}
+	
 	@Override
 	public Map<Integer, String> pedidosNoEntregados() {
 	    Map<Integer, String> pedidosNoEntregados = new HashMap<>();
@@ -229,7 +260,7 @@ public class EmpresaAmazing implements IEmpresa {
 
 	    for (pedido pedido : listaPedidos) {
 	        for (paquete paquete : pedido.getListaCarrito().values()) {
-	            if (paquete.getEstado()) {
+	            if (!paquete.getEstado()) { //EXCLAMACION
 	                pedidosNoEntregados.put(pedido.getIdPedido(), pedido.getNombre());
 	                break; // No es necesario verificar más paquetes en este pedido
 	            }
@@ -244,18 +275,36 @@ public class EmpresaAmazing implements IEmpresa {
 	public double facturacionTotalPedidosCerrados() {
 		return this.facturacionTotal;
 	}
-	@Override
+	
+
+
 	public boolean hayTransportesIdenticos() {
-		  for (transporte transporte1 : this.ListaTransportes.values()) {
-		        for (transporte transporte2 : this.ListaTransportes.values()) {
-		            if (transporte1 != transporte2 && transporte1.equals(transporte2)) {
+	    List<transporte> listaTransportes = new ArrayList<>(ListaTransportes.values());
+	    
+
+	    for (int i = 0; i < listaTransportes.size()-1; i++) {
+	        for (int j = i + 1; j < listaTransportes.size(); j++) {
+	            transporte transporte1 = listaTransportes.get(i);
+	            transporte transporte2 = listaTransportes.get(j);
+	            
+	    		
+	            
+	           
+	            if(transporte1.getClass() == transporte2.getClass() && transporte1.getPatente() != transporte2.getPatente()) {
+	            	// Utiliza hayCargasIdenticas para comparar las cargas de paquetes
+		            if (transporte1.hayCargasIdenticas(transporte2)) {
 		                return true; // Encontraste dos transportes idénticos
 		            }
-		        }
-		    }
-		    return false; // No se encontraron transportes idénticos
-		
+	            }
+	           
+
+	           
+	        }
+	    }
+	    return false; // No se encontraron transportes idénticos
 	}
+	
+	
 	public String getCuit() {
 		return cuit;
 	}

@@ -18,8 +18,21 @@ public class pedido {
 		this.dni = dni;		
 	}
 	public String toString(){
-		return getClass().getSimpleName()
-			+ " (idPedido "+this.idPedido+", nombre "+this.nombre+ "direccion" + this.direccion+ "dni" + this.dni+")";
+		StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClass().getSimpleName())
+                .append(" (idPedido ").append(this.idPedido)
+                .append(", nombre ").append(this.nombre)
+                .append(", direccion ").append(this.direccion)
+                .append(", dni ").append(this.dni)
+                .append(")");
+        
+        stringBuilder.append("\n---**Paquetes:**---\n");
+        for (paquete paquete: ListaCarrito.values()){
+            stringBuilder.append(paquete.toString()).append(" ").append("\n");
+        }
+    
+        
+        return stringBuilder.toString();
 	}
 	 
 	
@@ -43,7 +56,7 @@ public class pedido {
 			ListaCarrito.remove(idPaquete);
 	        return true;
 	    } 
-		throw new RuntimeException("El paquete no existe " + idPaquete);
+		return false; //throw new RuntimeException("El paquete no existe " + idPaquete);  ACTUALIZO AHORA
 		
 	}
 	public double cerrarPedido() {

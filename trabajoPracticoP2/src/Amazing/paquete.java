@@ -13,7 +13,7 @@ public abstract class paquete {
 	
 	public String toString(){
 		return getClass().getSimpleName()
-			+ " (idpaquete "+this.idpaquete+", volumen "+volumen+ "precio" + precio+")";
+			+ " (idpaquete "+ this.idpaquete + ", volumen "+ volumen + " precio " + precio +")";
 	}
 	public abstract void agregarCosto();
 
@@ -31,6 +31,20 @@ public abstract class paquete {
 	}
 	public void setEstado() {
 		this.estado = false;
+	}
+	
+	public boolean equals(paquete paquete) {
+		// verifico si son del mismo tipo
+    	if (this.getClass() != paquete.getClass()) {
+    	    return false;
+    	}
+    	// Comparo los atributos de ambos paquetes
+    	if(this.getPrecio() == this.getPrecio() && paquete.getvolumen() == paquete.getvolumen()) {
+    		return true;
+    	}
+    	
+		
+		return false;
 	}
 	
 	

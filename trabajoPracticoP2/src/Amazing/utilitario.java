@@ -14,7 +14,7 @@ public class utilitario extends transporte {
 		
 			int espacioUsado = volumenUsado(); // Quiero saber cuanto espacio estoy ocupando con todos mis paquetes
 			int espacioRestante = espacioUsado + paquete.getvolumen(); // Quiero saber si sumando el espacio ocupado mas el nuevo paquete aun me queda espacio
-			if(hayEspacio() &&  this.volumen > espacioRestante) {
+			if(hayEspacio() &&  this.volumen >= espacioRestante) {
 				this.Carga.put(paquete.getIdpaquete(), paquete); // La clave del map es igual al idpaquete del paquete
 				return true;
 			}else {
